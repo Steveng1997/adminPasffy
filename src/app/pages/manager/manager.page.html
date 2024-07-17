@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="manager.page.scss" />
+</head>
+
+<body>
+  <div class="MOBILE">
+    <div class="overlap-wrapper">
+      <div class="overlap">
+
+        <div class="rectangle"></div>
+        <div class="div"></div>
+
+        <div class="text-wrapper-16">Usuarios</div>
+
+        <div class="rectangle-2"></div>
+
+        <div class="frame">
+          <div>
+
+            <div class="rectangle-5"></div>
+            <div class="text-wrapper-15">Administrador</div>
+            <div class="text-wrapper-14">Pass</div>
+            <div class="text-wrapper-13">Registro</div>
+            <div class="text-wrapper-12">Acceso</div>
+            <div class="text-wrapper-11">Servicio</div>
+            <div class="text-wrapper-10">Encarg</div>
+            <div class="text-wrapper-9">Terap</div>
+            <div class="text-wrapper-8">Total</div>
+
+          </div>
+
+          <div class="group" *ngFor="let services of manager | paginate: { itemsPerPage: 12, currentPage: page }">
+            <div style="position: relative; top: 0px">
+
+              <!-- <img class="switcher" src="img/switcher.svg" /> -->
+
+              <!-- <ion-checkbox class="switcher"></ion-checkbox> -->
+              <ion-toggle [checked]="true"></ion-toggle>
+
+              <div class="group-7">
+                <div class="overlap-7">
+                  <div class="text-wrapper-7">{{services.usuario}}</div>
+                </div>
+              </div>
+
+              <div class="group-6">
+                <div class="overlap-6">
+                  <div class="text-wrapper-6">{{services.pass}}</div>
+                </div>
+              </div>
+
+              <div class="group-5">
+                <div class="overlap-5">
+                  <div class="rectangle-4"></div>
+                  <div class="text-wrapper-5">13/07/2024</div>
+                </div>
+              </div>
+
+              <div class="group-4">
+                <div class="overlap-5">
+                  <div class="rectangle-4"></div>
+                  <div class="text-wrapper-5">13/07/2024</div>
+                </div>
+              </div>
+
+              <div class="overlap-3">
+                <div class="group-3">
+                  <div class="overlap-4">
+                    <div class="rectangle-3"></div>
+                    <div class="text-wrapper-4">13/07/2024</div>
+                  </div>
+                </div>
+
+                <div class="group-2">
+                  <div class="overlap-2">
+                    <div class="text-wrapper-3">{{managerCount}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="div-wrapper">
+                <div class="overlap-2">
+                  <div class="text-wrapper-2">{{therapistCount}}</div>
+                </div>
+              </div>
+
+              <div class="overlap-group-wrapper">
+                <div class="overlap-group">
+                  <div class="text-wrapper">{{serviceCount}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <pagination-controls class="paginator" previousLabel="" nextLabel=""
+          (pageChange)="page = $event"></pagination-controls>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
