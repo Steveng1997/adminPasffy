@@ -241,16 +241,6 @@ html:not(.hydrated) body {
   overflow: hidden;
 }
 
-.mobile .ellipse {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  top: 19px;
-  left: 20px;
-  background-color: rgba(31, 185, 150, 1);
-  border-radius: 4px;
-}
-
 .mobile .columnRegister {
   height: 23px;
   top: 8px;
@@ -422,4 +412,21 @@ html:not(.hydrated) body {
     left: 0;
     overflow-x: scroll;
   }
+}
+
+ion-checkbox {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 17px;
+  left: 15px;
+  background-color: rgb(31, 185, 150);
+  border-radius: 4px;
+  --size: 22px;
+  --checkbox-background-checked: rgb(11, 154, 122);
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 2px solid rgb(11, 154, 122);
 }

@@ -30,6 +30,7 @@
           <div class="navbar">
             <div class="rectangle" *ngFor="let services of manager | paginate: { itemsPerPage: 60, currentPage: page }">
               <div style="position: relative; top: 0px">
+                <ion-checkbox (click)="checkBox($event, services.id)" checked="true"></ion-checkbox>
                 <div class="columnUser">{{services.usuario}}</div>
                 <div class="columnPass">{{services.pass}}</div>
                 <div class="columnRegister">13/07/2024</div>

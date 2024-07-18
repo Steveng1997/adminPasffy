@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-// import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 
 // Model
@@ -10,6 +9,7 @@ import { ModelManager } from 'src/app/core/models/manager';
 import { ServiceManager } from 'src/app/core/services/manager';
 import { serviceServices } from 'src/app/core/services/service';
 import { ServiceTherapist } from 'src/app/core/services/therapist';
+import { IonLoaderService } from 'src/app/core/services/ion-loader.service';
 
 @Component({
   selector: 'app-manager',
@@ -25,48 +25,60 @@ export class ManagerPage implements OnInit {
   managerCount = 0
   serviceCount = 0
 
+  count = 0
+  mivar: boolean = false;
+
+  managerModel: ModelManager = {
+    activo: true
+  }
+
   constructor(
     public router: Router,
-    private activatedRoute: ActivatedRoute,
     private platform: Platform,
-    // private ionLoaderService: IonLoaderService,
+    private ionLoaderService: IonLoaderService,
     private serviceManager: ServiceManager,
     private serviceTherapist: ServiceTherapist,
     private serviceService: serviceServices
   ) { }
 
 
-  ngOnInit() {
-    this.getAll()
+  async ngOnInit() {
+    await this.getAll()
   }
 
   getAll() {
+    this.ionLoaderService.simpleLoader()
     this.serviceManager.getUsuarios().subscribe((rp: any) => {
       this.manager = rp
 
-      if (rp) {
+      for (let o = 0; o < rp.length; o++) {
+        let company = rp[o].company
+        this.serviceManager.getByCompany(company).subscribe((resp: any) => {
+          this.manager[o]['countManager'] = resp.length
 
-        for (let o = 0; o < rp.length; o++) {
-          let company = rp[o].company
-          this.serviceManager.companyByDistinct(company).subscribe((rp: any) => {
-            this.serviceManager.getByCompany(company).subscribe((resp: any) => {
-              this.manager[o]['countManager'] = resp.length
+          this.serviceTherapist.getByCompany(company).subscribe((resp: any) => {
+            this.manager[o]['countTherapist'] = resp.length
 
-              this.serviceTherapist.getByCompany(company).subscribe((resp: any) => {
-                this.manager[o]['countTherapist'] = resp.length
+            this.serviceService.getByCompany(company).subscribe((rp: any) => {
+              this.manager[o]['serviceCount'] = rp.length
+              this.count++
 
-                this.serviceService.getByCompany(company).subscribe((rp: any) => {
-                  this.manager[o]['serviceCount'] = rp.length
-                })
-              })
+              if (this.count == this.manager.length)
+                this.ionLoaderService.dismissLoader()
             })
           })
-        }
+        })
       }
     })
   }
 
-  aqui(event: any) {
-    debugger
+  checkBox(event: any, id: number) {
+    if (event.target.checked === true) {
+      this.managerModel.activo = false
+      this.serviceManager.updateActive(id, this.managerModel).subscribe((resp: any) => { })
+    } else {
+      this.managerModel.activo = true
+      this.serviceManager.updateActive(id, this.managerModel).subscribe((resp: any) => { })
+    }
   }
 }

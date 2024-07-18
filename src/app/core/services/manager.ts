@@ -26,7 +26,9 @@ export class ServiceManager {
     return this.http.get(`${this.API_URL}/getAdminActive/${company}`);
   }
 
-  companyByDistinct(company: string) {
-    return this.http.get(`${this.API_URL}/companyDistinct/${company}`);
+  // Update
+
+  updateActive(id: number, manager: ModelManager) {
+    return this.http.put(`${this.API_URL}/updateActive/${id}`, manager);
   }
 }
