@@ -45,24 +45,24 @@ export class ManagerPage implements OnInit {
       this.manager = rp
 
       if (rp) {
-        this.serviceManager.getByCompany(rp[0].company).subscribe((rp: any) => {
-          this.managerCount = rp.length
-          this.getTherapist(rp[0].company)
-          this.getService(rp[0].company)
-        })
+
+        for (let o = 0; o < rp.length; o++) {
+          let company = rp[o].company
+          this.serviceManager.companyByDistinct(company).subscribe((rp: any) => {
+            this.serviceManager.getByCompany(company).subscribe((resp: any) => {
+              this.manager[o]['countManager'] = resp.length
+
+              this.serviceTherapist.getByCompany(company).subscribe((resp: any) => {
+                this.manager[o]['countTherapist'] = resp.length
+
+                this.serviceService.getByCompany(company).subscribe((rp: any) => {
+                  this.manager[o]['serviceCount'] = rp.length
+                })
+              })
+            })
+          })
+        }
       }
-    })
-  }
-
-  getTherapist(company: string) {
-    this.serviceTherapist.getByCompany(company).subscribe((rp: any) => {
-      this.therapistCount = rp.length
-    })
-  }
-
-  getService(company: string) {
-    this.serviceService.getByCompany(company).subscribe((rp: any) => {
-      this.serviceCount = rp.length
     })
   }
 

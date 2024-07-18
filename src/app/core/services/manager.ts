@@ -25,4 +25,8 @@ export class ServiceManager {
   getByCompany(company: string) {
     return this.http.get(`${this.API_URL}/getAdminActive/${company}`);
   }
+
+  companyByDistinct(company: string) {
+    return this.http.get(`${this.API_URL}/companyDistinct/${company}`);
+  }
 }
